@@ -1,0 +1,65 @@
+#!/bin/bash
+
+echo
+echo "******************************************************************************"
+echo "* Renombrando las fotos, autorotando las fotos y borrando las miniaturas ... *"
+echo "******************************************************************************"
+date
+nice -n 10 time jhead -n"%Y%m%d_%H%M%S_%f_maurob" -autorot -dt *.jpg
+nice -n 10 time jhead -n"%Y%m%d_%H%M%S_%f_maurob" -autorot -dt *.JPG
+echo
+
+echo "*************************************************"
+echo "*************************************************"
+echo "** Nombrando y transcodificando los videos ... **"
+echo "*************************************************"
+echo "*************************************************"
+date
+echo
+
+echo "	*******************************"
+echo "	* Generando lista de procesos *"
+echo "	*******************************"
+echo "#!/bin/bash" > ~/Proc.fotos.videos/all_in_one_maurob_videos
+nice -n 10 time java -cp ~/Proc.fotos.videos NameVideosTranscode "$PWD" --donotrun >> ~/Proc.fotos.videos/all_in_one_maurob_videos
+chmod +x ~/Proc.fotos.videos/all_in_one_maurob_videos
+echo
+
+echo "	*******************************"
+echo "	* Ejecutando list de procesos *"
+echo "	*******************************"
+nice -n 10 time ~/Proc.fotos.videos/all_in_one_maurob_videos
+echo
+
+echo "	*********************************"
+echo " 	* Verificando transcodificación *"
+echo "	*********************************"
+nice -n 10 time java -cp ~/Proc.fotos.videos NameVideosTranscode "$PWD"
+echo
+
+echo "******************************************"
+echo "* Borrando los thumbs de las movies ... *"
+echo "******************************************"
+date
+nice -n 10 time rm *.THM
+echo
+
+echo "*********************************************************************"
+echo "* Actualizando la fechas de la última modificación de cada archivo, *"
+echo "* para que represente lo que está escrito en su nombre ...          *"
+echo "*********************************************************************"
+date
+nice -n 10 time java -cp ~/Proc.fotos.videos AutoSetFileDate "$PWD"
+echo
+
+echo "**************"
+echo "* Terminado. *"
+echo "**************"
+date
+
+echo "jejej"
+
+
+
+echo "jojojo"
+
